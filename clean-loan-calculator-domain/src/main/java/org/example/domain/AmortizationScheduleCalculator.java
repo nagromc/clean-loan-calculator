@@ -65,7 +65,14 @@ public class AmortizationScheduleCalculator {
     BigDecimal remainingPrincipalAmount = calculateRemainingPrincipalAmountOfPeriod(periodNumber);
     BigDecimal principalAmountOfPeriod = calculatePrincipalAmountOfPeriod(interestAmountOfPeriod);
     BigDecimal totalPaidPrincipalAmount = calculateTotalPaidPrincipalAmount(remainingPrincipalAmount);
-    return new Payment(periodNumber, principalAmountOfPeriod, interestAmountOfPeriod, remainingPrincipalAmount, totalPaidPrincipalAmount);
+
+    return new PaymentBuilder()
+      .setPeriodNumber(periodNumber)
+      .setPrincipalAmount(principalAmountOfPeriod)
+      .setInterestAmount(interestAmountOfPeriod)
+      .setRemainingPrincipalAmount(remainingPrincipalAmount)
+      .setTotalPaidPrincipalAmount(totalPaidPrincipalAmount)
+      .createPayment();
   }
 
   private BigDecimal calculateInterestAmountOfPeriod(int periodNumber) {
