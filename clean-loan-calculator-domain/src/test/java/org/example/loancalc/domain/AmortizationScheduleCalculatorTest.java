@@ -89,8 +89,6 @@ public class AmortizationScheduleCalculatorTest {
       assertAmountEquals(1000, theOnlyPayment.totalPaidPrincipalAmount);
     }
 
-
-
     @Test
     void withDurationOfTwoMonths_scheduleShouldBeTwoPayments() {
       AmortizationScheduleCalculator calculator = new AmortizationScheduleCalculator(loanAmount, 2, interestRate);
