@@ -9,6 +9,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AmortizationScheduleCalculatorTest {
 
@@ -23,12 +24,39 @@ public class AmortizationScheduleCalculatorTest {
   }
 
   @Test
-  void whenLoanAmountIs0_scheduleShouldBeEmpty() {
-    AmortizationScheduleCalculator calculator = new AmortizationScheduleCalculator(loanAmount, 1, interestRate);
+  void whenLoanAmountIs0_shouldThrowException() {
+    assertThrows(IllegalArgumentException.class,
+      () -> new AmortizationScheduleCalculator(loanAmount, 1, interestRate));
+  }
 
-    List<Payment> schedule = calculator.execute();
+  @Test
+  void whenLoanAmountIsNegative_shouldThrowException() {
+    assertThrows(IllegalArgumentException.class,
+      () -> new AmortizationScheduleCalculator(new BigDecimal("-1"), 1, interestRate));
+  }
 
-    assertThat(schedule, is(empty()));
+  @Test
+  void whenDurationIs0_shouldThrowException() {
+    assertThrows(IllegalArgumentException.class,
+      () -> new AmortizationScheduleCalculator(new BigDecimal("1"), 0, interestRate));
+  }
+
+  @Test
+  void whenDurationIsNegative_shouldThrowException() {
+    assertThrows(IllegalArgumentException.class,
+      () -> new AmortizationScheduleCalculator(new BigDecimal("1"), -1, interestRate));
+  }
+
+  @Test
+  void whenInterestRateIs0_shouldThrowException() {
+    assertThrows(IllegalArgumentException.class,
+      () -> new AmortizationScheduleCalculator(new BigDecimal("1"), 1, new BigDecimal("0")));
+  }
+
+  @Test
+  void whenInterestRateIsNegative_shouldThrowException() {
+    assertThrows(IllegalArgumentException.class,
+      () -> new AmortizationScheduleCalculator(new BigDecimal("1"), 1, new BigDecimal("-1")));
   }
 
   @Nested

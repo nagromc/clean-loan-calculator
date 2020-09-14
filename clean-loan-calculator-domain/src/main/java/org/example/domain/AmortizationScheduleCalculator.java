@@ -23,6 +23,17 @@ public class AmortizationScheduleCalculator {
     this.durationInMonths = durationInMonths;
     this.annualInterestRate = annualInterestRate;
     this.monthlyInterestRate = annualInterestRate.divide(NUMBER_OF_MONTHS_IN_A_YEAR, 10, RoundingMode.HALF_UP);
+
+    validateInput();
+  }
+
+  private void validateInput() {
+    if (loanAmount.compareTo(BigDecimal.ZERO) <= 0)
+      throw new IllegalArgumentException("The loan amount must be positive");
+    if (durationInMonths <= 0)
+      throw new IllegalArgumentException("The duration must be positive");
+    if (annualInterestRate.compareTo(BigDecimal.ZERO) <= 0)
+      throw new IllegalArgumentException("The interest rate must be positive");
   }
 
   public List<Payment> execute() {
