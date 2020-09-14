@@ -37,9 +37,6 @@ public class AmortizationScheduleCalculator {
   }
 
   public List<Payment> execute() {
-    if (this.loanAmount.equals(BigDecimal.ZERO))
-      return Collections.emptyList();
-
     this.monthlyPaymentAmount = calculateMonthlyPaymentAmount();
 
     for (int i = 0; i < this.durationInMonths; i++) {
