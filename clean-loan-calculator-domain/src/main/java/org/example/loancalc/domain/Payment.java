@@ -1,4 +1,4 @@
-package org.example.domain;
+package org.example.loancalc.domain;
 
 import java.math.BigDecimal;
 
