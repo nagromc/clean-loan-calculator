@@ -82,9 +82,8 @@ public class AmortizationScheduleCalculatorTest {
       assertThat(payments, hasSize(1));
 
       Payment theOnlyPayment = payments.get(0);
-      double expectedAmount = 8.33;
       BigDecimal actualAmount = theOnlyPayment.interestAmount;
-      assertAmountEquals(expectedAmount, actualAmount);
+      assertAmountEquals(8.33, actualAmount);
       assertAmountEquals(1000, theOnlyPayment.principalAmount);
       assertAmountEquals(0, theOnlyPayment.remainingPrincipalAmount);
       assertAmountEquals(1000, theOnlyPayment.totalPaidPrincipalAmount);
