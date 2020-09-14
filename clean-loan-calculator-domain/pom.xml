@@ -12,6 +12,8 @@
 
   <artifactId>clean-loan-calculator-domain</artifactId>
 
+  <description>Application-agnostic loan calculator business rules</description>
+
   <dependencies>
     <!-- testing -->
     <dependency>

@@ -12,6 +12,8 @@
 
   <artifactId>clean-loan-calculator-usecase</artifactId>
 
+  <description>Application-specific loan calculator business rules</description>
+
   <dependencies>
     <!-- modules -->
     <dependency>
