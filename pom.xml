@@ -11,6 +11,7 @@
 
   <modules>
     <module>clean-loan-calculator-domain</module>
+    <module>clean-loan-calculator-usecase</module>
   </modules>
 
   <properties>
@@ -20,13 +21,25 @@
 
   <dependencyManagement>
     <dependencies>
+      <!-- modules -->
+      <dependency>
+        <groupId>org.example</groupId>
+        <artifactId>clean-loan-calculator-domain</artifactId>
+        <version>${project.parent.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.example</groupId>
+        <artifactId>clean-loan-calculator-usecase</artifactId>
+        <version>${project.parent.version}</version>
+      </dependency>
+
+      <!-- testing -->
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter</artifactId>
         <version>5.6.2</version>
         <scope>test</scope>
       </dependency>
-
       <dependency>
         <groupId>org.hamcrest</groupId>
         <artifactId>hamcrest</artifactId>
