@@ -36,7 +36,7 @@ public class AmortizationScheduleCalculator {
       throw new IllegalArgumentException("The interest rate must be positive");
   }
 
-  public List<Payment> execute() {
+  public AmortizationSchedule execute() {
     this.monthlyPaymentAmount = calculateMonthlyPaymentAmount();
 
     for (int i = 0; i < this.durationInMonths; i++) {
@@ -44,7 +44,13 @@ public class AmortizationScheduleCalculator {
       this.paymentSchedule.add(payment);
     }
 
-    return this.paymentSchedule;
+    return new AmortizationScheduleBuilder()
+      .setAnnualInterestRate(this.annualInterestRate)
+      .setDurationInMonths(this.durationInMonths)
+      .setLoanAmount(this.loanAmount)
+      .setMonthlyPaymentAmount(this.monthlyPaymentAmount)
+      .setPayments(this.paymentSchedule)
+      .createAmortizationSchedule();
   }
 
   private BigDecimal calculateMonthlyPaymentAmount() {

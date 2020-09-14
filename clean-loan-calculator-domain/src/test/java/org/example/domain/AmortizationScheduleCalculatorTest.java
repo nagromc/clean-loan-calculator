@@ -71,10 +71,17 @@ public class AmortizationScheduleCalculatorTest {
     void withDurationOfOneMonth_scheduleShouldBeOnePayment() {
       AmortizationScheduleCalculator calculator = new AmortizationScheduleCalculator(loanAmount, 1, interestRate);
 
-      List<Payment> schedule = calculator.execute();
+      AmortizationSchedule schedule = calculator.execute();
 
-      assertThat(schedule, hasSize(1));
-      Payment theOnlyPayment = schedule.get(0);
+      assertAmountEquals(interestRate, schedule.annualInterestRate);
+      assertAmountEquals(loanAmount, schedule.loanAmount);
+      assertAmountEquals(1008.33, schedule.monthlyPaymentAmount);
+      assertThat(schedule.durationInMonths, is(1));
+
+      List<Payment> payments = schedule.payments;
+      assertThat(payments, hasSize(1));
+
+      Payment theOnlyPayment = payments.get(0);
       double expectedAmount = 8.33;
       BigDecimal actualAmount = theOnlyPayment.interestAmount;
       assertAmountEquals(expectedAmount, actualAmount);
@@ -89,17 +96,23 @@ public class AmortizationScheduleCalculatorTest {
     void withDurationOfTwoMonths_scheduleShouldBeTwoPayments() {
       AmortizationScheduleCalculator calculator = new AmortizationScheduleCalculator(loanAmount, 2, interestRate);
 
-      List<Payment> schedule = calculator.execute();
+      AmortizationSchedule schedule = calculator.execute();
 
-      assertThat(schedule, hasSize(2));
+      assertAmountEquals(interestRate, schedule.annualInterestRate);
+      assertAmountEquals(loanAmount, schedule.loanAmount);
+      assertAmountEquals(506.25, schedule.monthlyPaymentAmount);
+      assertThat(schedule.durationInMonths, is(2));
 
-      Payment firstPayment = schedule.get(0);
+      List<Payment> payments = schedule.payments;
+      assertThat(payments, hasSize(2));
+
+      Payment firstPayment = payments.get(0);
       assertAmountEquals(8.33, firstPayment.interestAmount);
       assertAmountEquals(497.92, firstPayment.principalAmount);
       assertAmountEquals(502.07, firstPayment.remainingPrincipalAmount);
       assertAmountEquals(497.92, firstPayment.totalPaidPrincipalAmount);
 
-      Payment secondPayment = schedule.get(1);
+      Payment secondPayment = payments.get(1);
       assertAmountEquals(4.18, secondPayment.interestAmount);
       assertAmountEquals(502.07, secondPayment.principalAmount);
       assertAmountEquals(0, secondPayment.remainingPrincipalAmount);
@@ -110,23 +123,29 @@ public class AmortizationScheduleCalculatorTest {
     void withDurationOfThreeMonths_scheduleShouldBeThreePayments() {
       AmortizationScheduleCalculator calculator = new AmortizationScheduleCalculator(loanAmount, 3, interestRate);
 
-      List<Payment> schedule = calculator.execute();
+      AmortizationSchedule schedule = calculator.execute();
 
-      assertThat(schedule, hasSize(3));
+      assertAmountEquals(interestRate, schedule.annualInterestRate);
+      assertAmountEquals(loanAmount, schedule.loanAmount);
+      assertAmountEquals(338.90, schedule.monthlyPaymentAmount);
+      assertThat(schedule.durationInMonths, is(3));
 
-      Payment firstPayment = schedule.get(0);
+      List<Payment> payments = schedule.payments;
+      assertThat(payments, hasSize(3));
+
+      Payment firstPayment = payments.get(0);
       assertAmountEquals(8.33, firstPayment.interestAmount);
       assertAmountEquals(330.57, firstPayment.principalAmount);
       assertAmountEquals(669.43, firstPayment.remainingPrincipalAmount);
       assertAmountEquals(330.57, firstPayment.totalPaidPrincipalAmount);
 
-      Payment secondPayment = schedule.get(1);
+      Payment secondPayment = payments.get(1);
       assertAmountEquals(5.57, secondPayment.interestAmount);
       assertAmountEquals(333.32, secondPayment.principalAmount);
       assertAmountEquals(336.10, secondPayment.remainingPrincipalAmount);
       assertAmountEquals(663.90, secondPayment.totalPaidPrincipalAmount);
 
-      Payment thirdPayment = schedule.get(2);
+      Payment thirdPayment = payments.get(2);
       assertAmountEquals(2.80, thirdPayment.interestAmount);
       assertAmountEquals(336.10, thirdPayment.principalAmount);
       assertAmountEquals(0, thirdPayment.remainingPrincipalAmount);
@@ -137,6 +156,10 @@ public class AmortizationScheduleCalculatorTest {
 
   private void assertAmountEquals(double expectedAmount, BigDecimal actualAmount) {
     assertThat(actualAmount, closeTo(BigDecimal.valueOf(expectedAmount), BigDecimal.valueOf(DELTA)));
+  }
+
+  private void assertAmountEquals(BigDecimal expectedAmount, BigDecimal actualAmount) {
+    assertThat(actualAmount, closeTo(expectedAmount, BigDecimal.valueOf(DELTA)));
   }
 
 }
